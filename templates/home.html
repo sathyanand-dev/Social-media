@@ -1,0 +1,76 @@
+{% extends "base.html" %} {% block content %}
+<section>
+  <div class="contain grid jcs aic g30">
+    {% set title = "Posts" %} {% include './components/head.html' %}
+    <form
+      method="post"
+      class="grid jcs aic g10 add_post_form"
+      action="/"
+      enctype="multipart/form-data"
+    >
+      <div class="form_box grid jcs aic g5">
+        <textarea
+          class="form-control"
+          id="description"
+          name="description"
+          rows="2"
+          placeholder="What's in your mind..."
+          required
+        ></textarea>
+      </div>
+      <div class="form_box grid jcs aic g5">
+        <label for="image" class="add_image_label">
+          <img
+            src="{{ url_for('static', filename='images/add_image.png') }}"
+            alt="add post_image"
+          />
+        </label>
+        <div class="chosen_image flex jcsb aic g5" id="image_name_box">
+          <span id="image_name"></span>
+          <button type="button" id="close_button">
+            <img
+              src="{{ url_for('static', filename='images/close.png') }}"
+              alt="colse"
+            />
+          </button>
+        </div>
+        <input
+          type="file"
+          class="upload_image_input"
+          id="image"
+          name="image"
+          accept=".jpg, .jpeg, .png , .gif"
+          requiredX
+        />
+      </div>
+      <button type="submit" class="form_button">Add Post</button>
+    </form>
+    <div class="grid jcs aifs g30 home_box">
+      <div class="grid jcs aic g20">
+        {% if posts|length == 0 %}
+        <div class="flex jcc aic no_post_text">No Posts Yet...</div>
+        {% endif %} {% for post in posts|reverse %} {% include
+        './components/post.html' %} {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  const imageName = document.getElementById("image_name");
+  const closeButton = document.getElementById("close_button");
+  const fileInput = document.getElementById("image");
+  const imageNameBox = document.getElementById("image_name_box");
+  fileInput.addEventListener("input", () => {
+    if (image.value) {
+      imageName.innerHTML = image.value;
+      imageNameBox.classList.add("active");
+    } else {
+      imageNameBox.classList.remove("active");
+    }
+  });
+  closeButton.addEventListener("click", () => {
+    image.value = null;
+    imageNameBox.classList.remove("active");
+  });
+</script>
+{% endblock %}
